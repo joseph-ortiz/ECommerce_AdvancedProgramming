@@ -3,7 +3,7 @@ package Models;
 
 public class BaseProduct {
 	
-	public BaseProduct(int id, String name, float cost, ProductCategory category){
+	public BaseProduct(int id, String name, Double cost, ProductCategory category){
 		this.Id = id;
 		this.name = name;
 		this.cost = cost;
@@ -15,7 +15,7 @@ public class BaseProduct {
 	******************************/
 	public int Id;
 	public String name;
-	public float cost;
+	public Double cost;
 	public ProductCategory category;
 	
 	
@@ -34,10 +34,10 @@ public class BaseProduct {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public float getCost() {
+	public Double getCost() {
 		return cost;
 	}
-	public void setCost(float cost) {
+	public void setCost(Double cost) {
 		this.cost = cost;
 	}
 	public ProductCategory getCategory() {

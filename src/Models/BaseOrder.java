@@ -8,7 +8,7 @@ public class BaseOrder{
 	
 	public BaseOrder(UUID userId){
 		this.id = java.util.UUID.randomUUID(); 
-		this.total = 0;
+		this.total = 0.00;
 		this.payment = new Payment();
 		this.products = new ArrayList<Product>();
 		this.userid = userId;
@@ -16,13 +16,13 @@ public class BaseOrder{
 		this.isComplete = false;
 	}
 	
-	public UUID id;
-	public int total;
-	public Payment payment;
-	public List<Product> products;
-	public Address ShippingAddress;
-	public boolean isComplete;
-	public UUID userid;
+	private UUID id;
+	private Double total;
+	private Payment payment;
+	private List<Product> products;
+	private Address ShippingAddress;
+	private Boolean isComplete;
+	private UUID userid;
 	
 	public UUID getId() {
 		return id;
@@ -30,10 +30,10 @@ public class BaseOrder{
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	public int getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 	public Payment getPayment() {

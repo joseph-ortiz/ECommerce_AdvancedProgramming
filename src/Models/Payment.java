@@ -12,10 +12,11 @@ public class Payment {
 	}
 	
 	public Boolean AuthorizePayment(){
+		Boolean isSuccess = false;
 		if(this.type == null)
 			throw new Error("No Payment type set");
-		Boolean isSuccess = false;
-		isSuccess = true;
+		isSuccess = true; 
+		System.out.println("Checking with bank to authorize payment");
 		System.out.println("Authorized Payment with return value of: " + isSuccess);
 		return isSuccess;
 	}

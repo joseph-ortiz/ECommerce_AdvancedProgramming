@@ -12,6 +12,7 @@ public class Address {
 		this.city = "atlanta";
 		this.state = "GA";
 		this.country = "USA";
+		this.zipCode = 30097;
 		
 	}
 	
