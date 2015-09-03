@@ -73,6 +73,7 @@ public class Address {
 	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
 	}
+	
 	public boolean isValid() {
 		Boolean isValid = true;
 		if(this.name.isEmpty()) isValid = false;

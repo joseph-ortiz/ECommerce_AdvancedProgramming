@@ -9,6 +9,8 @@ import Models.Order;
 import Models.Product;
 import Models.ProductCategory;
 import Models.User;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 
 public class Tester {
@@ -29,6 +31,7 @@ public class Tester {
 		Product p2 = new Product(2,"Advanced Programming",  80.00, category);
 		Product p3 = new Product(3, "Networking Book",  40.00, category);
 		List<Product> products = new ArrayList<Product>();
+		
 		products.add(p1);
 		products.add(p2);
 		products.add(p3);

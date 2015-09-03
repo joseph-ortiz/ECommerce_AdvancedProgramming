@@ -4,27 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BaseOrder
-{
-	private UUID id;
-	private double total;
-	private Payment payment;
-	private List<Product> products;
-	private Address ShippingAddress;
-	private Boolean isComplete;
-	private UUID userid;
+public class BaseOrder{
 	
-	/**Constructor: BaseOrder.java
-	 * Initializes object with following params.
-	 */
-	public BaseOrder()
-	{
-		super();
-	}
-
-	public BaseOrder(UUID userId)
-	{
-		this.id = java.util.UUID.randomUUID();
+	public BaseOrder(UUID userId){
+		this.id = java.util.UUID.randomUUID(); 
 		this.total = 0.00;
 		this.payment = new Payment();
 		this.products = new ArrayList<Product>();
@@ -32,75 +15,57 @@ public class BaseOrder
 		this.ShippingAddress = new Address();
 		this.isComplete = false;
 	}
-
-	public UUID getId()
-	{
+	
+	private UUID id;
+	private Double total;
+	private Payment payment;
+	private List<Product> products;
+	private Address ShippingAddress;
+	private Boolean isComplete;
+	private UUID userid;
+	
+	public UUID getId() {
 		return id;
 	}
-
-	public void setId(UUID id)
-	{
+	public void setId(UUID id) {
 		this.id = id;
 	}
-
-	public double getTotal()
-	{
+	public Double getTotal() {
 		return total;
 	}
-
-	public void setTotal(double total)
-	{
+	public void setTotal(Double total) {
 		this.total = total;
 	}
-
-	public Payment getPayment()
-	{
+	public Payment getPayment() {
 		return payment;
 	}
-
-	public void setPayment(Payment payment)
-	{
+	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
-
-	public List<Product> getProducts()
-	{
+	public List<Product> getProducts() {
 		return products;
 	}
-
-	public void setProducts(List<Product> products)
-	{
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-
-	public UUID getUserid()
-	{
+	public UUID getUserid() {
 		return userid;
 	}
-
-	public void setUserid(UUID userid)
-	{
+	public void setUserid(UUID userid) {
 		this.userid = userid;
 	}
-
-	public Address getShippingAddress()
-	{
+	public Address getShippingAddress() {
 		return ShippingAddress;
 	}
-
-	public void setShippingAddress(Address shippingAddress)
-	{
+	public void setShippingAddress(Address shippingAddress) {
 		ShippingAddress = shippingAddress;
 	}
-
-	public boolean isComplete()
-	{
+	public boolean isComplete() {
 		return isComplete;
 	}
-
-	public void setComplete(boolean isComplete)
-	{
+	public void setComplete(boolean isComplete) {
 		this.isComplete = isComplete;
 	}
-
+	
+	
 }
