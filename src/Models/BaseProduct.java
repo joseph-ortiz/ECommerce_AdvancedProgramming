@@ -8,7 +8,6 @@ public class BaseProduct {
 		this.name = name;
 		this.cost = cost;
 		this.category = category;
-		
 	}
 
 	/***************************** 
@@ -18,7 +17,6 @@ public class BaseProduct {
 	public String name;
 	public Double cost;
 	public ProductCategory category;
-	
 	
 	
 	/***************************** Start
