@@ -21,10 +21,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 
 public class Home extends Application
 {
@@ -38,7 +42,7 @@ public class Home extends Application
 	Label cartTitle = new Label("Your Order");
 	Label cartTotal = new Label("");
 	Label transactionInfo = new Label("Transaction Information:");
-	@FXML
+	
 	public TextField textField = new TextField();
 	@Override
 	public void start(Stage primaryStage) throws Exception
@@ -57,33 +61,38 @@ public class Home extends Application
 		Product p2 = new Product(2, "Advanced Programming", 80.00, category);
 		Product p3 = new Product(3, "Networking Book", 40.00, category);
 
-		//Create GUI Here
+		//Create Pane
 		GridPane pane = new GridPane();
 		pane.setPadding(new Insets(30));
-		pane.setStyle("-fx-background-color: #FAFAFA;");
+		pane.setStyle("-fx-background-color: black;");
 
-		//create items in list view.
-		//pane.add(title, 0, 0);
-
-		//Create label and button
-		//TODO: put this in a function to add this to a list.
-		
-		pane.add(new Label(p1.name), 0, 1);
+		//Create product label and button
+		Label pr1 = new Label(p1.name);
+		pr1.setFont(Font.font("Cambria", 18));
+		pr1.setTextFill(Color.WHITE);
+		pane.add(pr1, 0, 1);
 		pane.add(CreateItemButton(p1), 1, 1);
-
-		pane.add(new Label(p2.name), 0, 2);
+		
+		Label pr2 = new Label(p2.name);
+		pr2.setFont(Font.font("Cambria", 18));
+		pr2.setTextFill(Color.WHITE);
+		pane.add(pr2, 0, 2);
 		pane.add(CreateItemButton(p2), 1, 2);
-
-		pane.add(new Label(p3.name), 0, 3);
+		
+		Label pr3 = new Label(p3.name);
+		pr3.setFont(Font.font("Cambria", 18));
+		pr3.setTextFill(Color.WHITE);
+		pane.add(pr3, 0, 3);
 		pane.add(CreateItemButton(p3), 1, 3);
 
+		//Create Payment Type Radio buttons and Label
 		HBox paymentTypeRadioButtons = new HBox();
 		final ToggleGroup group = new ToggleGroup();
-
 		Stream.of(PaymentType.values()).map(Enum::name)
 				.collect(Collectors.toList()).forEach(name ->
 				{
 					RadioButton rb = new RadioButton(name);
+					rb.setTextFill(Color.WHITE);
 					rb.setToggleGroup(group);
 					rb.setOnAction(e ->
 					{
@@ -91,9 +100,6 @@ public class Home extends Application
 						order.getPayment().setType(paymentTypeVal);
 						textField.setText("Set the payment type to: "
 									+ paymentTypeVal.toString());
-						//System.out.println("Set the payment type to: "
-							//	+ paymentTypeVal.toString());
-						//TODO: add button to pane
 					});
 					paymentTypeRadioButtons.getChildren().add(rb);
 				});
@@ -104,8 +110,25 @@ public class Home extends Application
 		pane.add(cartTitle, 0, 4);
 		pane.add(cartTotal, 1, 4);
 
-		//TODO: Create Textbox as a class field property. Then log all system.out.println() to somewhere on the GUI.
+		//Create Image and Title
+		Image image = new Image("http://www.publicpolicy.telefonica.com/blogs/wp-content/uploads/2012/01/iStock_000018168079Large.jpg");
+		ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(100);
+		pane.add(imageView, 0, 0);
+		Label title = new Label("E-Commerce App");
+		title.setFont(Font.font("Cambria", 26));
+		pane.add(title, 1, 0);
+	
 		
+		cartTitle.setTextFill(lightGreen);
+		cartTitle.setFont(Font.font("Cambria", 24));
+		
+		cartTotal.setTextFill(lightGreen);
+		cartTotal.setFont(Font.font("Cambria", 24));
+
+		//Create Logging box.
 		HBox hb = new HBox();
 		hb.getChildren().addAll(transactionInfo, textField);
 		hb.setSpacing(10);
@@ -114,30 +137,35 @@ public class Home extends Application
 		Button placeOrderButton = new Button("Place Order");
 		placeOrderButton.setOnAction(e ->
 		{
-			//order.CalculateTotal();
 			order.setProducts(this.cartProductList);
-			order.placeOrder();
-			textField.setText("Order placed.  Your total is: " + order.getTotal());
+			try{
+				order.placeOrder();
+				textField.setText("Order placed.  Your total is: " + order.getTotal());
+					
+			}catch(Exception error){
+				String message = "Error processing your order: " +  error.getMessage();
+				System.out.println(message);
+				textField.setText(message);
+			}
+			
 		});
 		pane.add(placeOrderButton, 1, 5);
 
 		//Create a scene and place it on the stage.
-		Scene scene = new Scene(pane, 800, 600);
-		primaryStage.setTitle("ECommerce App");
+		Scene scene = new Scene(pane, 800,600);
+		primaryStage.setTitle("JavaFX ECommerce App");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 
 	private Node CreateItemButton(Product product)
 	{
-
 		Button button = new Button("Add to Cart");
 		button.setOnAction(e ->
 		{
 			this.cartProductList.add(product);
 			button.setText("Added");
 			textField.setText(product.name + " has been added to the cart");
-			//System.out.println(product.name + " has been added to the cart");
 		});
 		return button;
 	}
