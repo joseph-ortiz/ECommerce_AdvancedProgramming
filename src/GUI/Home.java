@@ -152,7 +152,7 @@ public class Home extends Application
 		pane.add(placeOrderButton, 1, 5);
 
 		//Create a scene and place it on the stage.
-		Scene scene = new Scene(pane, 800,600);
+		Scene scene = new Scene(pane, 800,300);
 		primaryStage.setTitle("JavaFX ECommerce App");
 		primaryStage.setScene(scene);
 		primaryStage.show();
