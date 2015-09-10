@@ -1,10 +1,11 @@
 package Models;
 
+import java.util.UUID;
 
 public class BaseProduct {
 	
-	public BaseProduct(int id, String name, Double cost, ProductCategory category){
-		this.Id = id;
+	public BaseProduct(String name, Double cost, ProductCategory category){
+		this.Id = UUID.randomUUID();
 		this.name = name;
 		this.cost = cost;
 		this.category = category;
@@ -13,7 +14,7 @@ public class BaseProduct {
 	/***************************** 
 	*      Fields
 	******************************/
-	public int Id;
+	public UUID Id;
 	public String name;
 	public Double cost;
 	public ProductCategory category;
@@ -22,10 +23,10 @@ public class BaseProduct {
 	/***************************** Start
 	*      GETTERS and Setters
 	******************************/
-	public int getId() {
+	public UUID getId() {
 		return Id;
 	}
-	public void setId(int id) {
+	public void setId(UUID id) {
 		Id = id;
 	}
 	public String getName() {

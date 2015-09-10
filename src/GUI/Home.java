@@ -2,6 +2,8 @@ package GUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,7 +14,6 @@ import Models.Product;
 import Models.ProductCategory;
 import Models.User;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -27,7 +28,6 @@ import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 public class Home extends Application
@@ -42,11 +42,13 @@ public class Home extends Application
 	Label cartTitle = new Label("Your Order");
 	Label cartTotal = new Label("");
 	Label transactionInfo = new Label("Transaction Information:");
+	public final String ecommerceLogo = "http://www.publicpolicy.telefonica.com/blogs/wp-content/uploads/2012/01/iStock_000018168079Large.jpg";
 	
 	public TextField textField = new TextField();
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+		ExecutorService executor = Executors.newCachedThreadPool();
 		User user = new User("jortiz3");
 		//Create an order
 		Order order = new Order(user.getId());
@@ -57,9 +59,9 @@ public class Home extends Application
 		ProductCategory category = new ProductCategory("Books");
 
 		//Create Products
-		Product p1 = new Product(1, "Financial Management", 60.00, category);
-		Product p2 = new Product(2, "Advanced Programming", 80.00, category);
-		Product p3 = new Product(3, "Networking Book", 40.00, category);
+		Product p1 = new Product("Financial Management", 60.00, category);
+		Product p2 = new Product("Advanced Programming", 80.00, category);
+		Product p3 = new Product( "Networking Book", 40.00, category);
 
 		//Create Pane
 		GridPane pane = new GridPane();
@@ -96,10 +98,15 @@ public class Home extends Application
 					rb.setToggleGroup(group);
 					rb.setOnAction(e ->
 					{
-						PaymentType paymentTypeVal = PaymentType.valueOf(name);
-						order.getPayment().setType(paymentTypeVal);
-						textField.setText("Set the payment type to: "
-									+ paymentTypeVal.toString());
+						executor.execute(new Runnable(){
+							public void run(){
+								PaymentType paymentTypeVal = PaymentType.valueOf(name);
+								order.getPayment().setType(paymentTypeVal);
+								textField.setText("Set the payment type to: "
+											+ paymentTypeVal.toString());
+							}
+						});
+						
 					});
 					paymentTypeRadioButtons.getChildren().add(rb);
 				});
@@ -111,7 +118,7 @@ public class Home extends Application
 		pane.add(cartTotal, 1, 4);
 
 		//Create Image and Title
-		Image image = new Image("http://www.publicpolicy.telefonica.com/blogs/wp-content/uploads/2012/01/iStock_000018168079Large.jpg");
+		Image image = new Image(ecommerceLogo);
 		ImageView imageView = new ImageView();
         imageView.setImage(image);
         imageView.setFitWidth(150);
@@ -139,8 +146,14 @@ public class Home extends Application
 		{
 			order.setProducts(this.cartProductList);
 			try{
-				order.placeOrder();
-				textField.setText("Order placed.  Your total is: " + order.getTotal());
+				executor.execute(new Runnable(){ //async tas
+					@Override
+					public void run(){
+						order.placeOrder();
+						textField.setText("Order placed.  Your total is: " + order.getTotal());
+					}
+				});
+				
 					
 			}catch(Exception error){
 				String message = "Error processing your order: " +  error.getMessage();

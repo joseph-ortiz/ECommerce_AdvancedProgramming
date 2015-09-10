@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 public class Product extends BaseProduct{
 	
 	
-	public Product(int id, String name, Double cost, ProductCategory category) {
-		super(id, name, cost, category);
+	public Product( String name, Double cost, ProductCategory category) {
+		super(name, cost, category);
 	}
 	/***************************** 
 	*      Public Methods
