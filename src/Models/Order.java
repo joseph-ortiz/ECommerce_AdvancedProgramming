@@ -16,16 +16,30 @@ public class Order extends BaseOrder
 	{
 		Boolean isSuccessful = false;
 		CalculateTotal();
-		if (this.getShippingAddress().isValid()
-				&& this.getPayment().AuthorizePayment() && this.getTotal() <= 0)
+		if (isValidOrder())
 		{
-			isSuccessful = false;
+			this.setComplete(true);
+			isSuccessful = true;
+		}else{
+			this.setComplete(false);
 		}
 
-		this.setComplete(true);
+		
 		System.out
 				.println("Placed Order with return type of: " + isSuccessful);
 		return isSuccessful;
+	}
+
+	private boolean isValidOrder() {
+		return (this.getShippingAddress().isValid()
+				&& this.getPayment().AuthorizePayment() 
+				&& this.ValidTotal());
+	}
+
+	private boolean ValidTotal() {
+			if (this.getTotal() <= 0)
+				return false;
+			return true;
 	}
 
 	public void CalculateTotal()
