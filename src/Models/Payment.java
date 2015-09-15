@@ -23,8 +23,8 @@ public class Payment {
 			throw new IllegalStateException("No Payment type set");
 		isSuccess = true;
 		//TODO: add real authorized payment logic here.
-		System.out.println("Checking with bank to authorize payment");
-		System.out.println("Authorized Payment with return value of: " + isSuccess);
+		//System.out.println("Checking with bank to authorize payment");
+		//System.out.println("Authorized Payment with return value of: " + isSuccess);
 		return isSuccess;
 	}
 

@@ -81,7 +81,7 @@ public class Address {
 		if(this.zipCode == 0) isValid = false;
 		if(this.country.isEmpty()) isValid = false;
 		
-		System.out.println("Validated address, returned: " + isValid);
+		//System.out.println("Validated address, returned: " + isValid);
 		return isValid;
 	}
 	

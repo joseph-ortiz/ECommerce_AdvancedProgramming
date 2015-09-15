@@ -33,13 +33,18 @@ public class Order extends BaseOrder
 
 	private boolean isValidOrder() {
 		System.out.println("userID: " + this.getUserid()  + " Validating order...");
-		return (this.getShippingAddress().isValid()
-				&& this.getPayment().AuthorizePayment() 
-				&& this.ValidTotal());
+		Boolean isValidAddress = this.getShippingAddress().isValid();
+		System.out.println("userID: " + this.getUserid()  + " Validated Address");
+		Boolean isPaymentAuthorized = this.getPayment().AuthorizePayment();
+		System.out.println("userID: " + this.getUserid()  + " Authorized Payment");
+		Boolean isValidTotal = this.ValidTotal();
+		System.out.println("userID: " + this.getUserid()  + " Validated Total");
+		return (isValidAddress
+				&& isPaymentAuthorized
+				&& isValidTotal);
 	}
 
 	private boolean ValidTotal() {
-		System.out.println("userID: " + this.getUserid()  + " validating total...");	
 		if (this.getTotal() <= 0)
 				return false;
 			return true;

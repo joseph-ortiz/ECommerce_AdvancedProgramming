@@ -16,8 +16,9 @@ import Models.Product;
 import Models.User;
 
 
-public class Tester {
 
+
+public class Tester {
 	public static void main(String[] args) {
 			User user = new User("jortiz3");
 			Order o1 = CreateRandomOrder(user);
@@ -30,32 +31,20 @@ public class Tester {
 			o2.setPayment(new Payment(PaymentType.PAYPAL));
 			user2.orders.add(o2);
 			
+
+			User user3 = new User("kanthony");
+			Order o3 = CreateRandomOrder(user2);
+			o2.setPayment(new Payment(PaymentType.MASTERCARD));
+			user3.orders.add(o3);
 			
-			Thread t1 = new Thread(new Runnable(){
-				@Override
-				public void run(){
-					System.out.println("Started order for user: " + user.getId());
-					user.getOrders().get(0).placeOrder();
-					System.out.println("Order placed for user: " + user.getId());
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-			Thread t2 = new Thread(new Runnable(){
-				@Override
-				public void run()
-				{
-					System.out.println("Started order for user: " + user2.getId());
-					user2.getOrders().get(0).placeOrder();
-					System.out.println("Order placed for user: " + user2.getId());
-				}
-			});
+			
+			Thread t1 = new Thread(new OrderTask(user));
+			Thread t2 = new Thread(new OrderTask(user2));
+			Thread t3 = new Thread(new OrderTask(user3));
+	
 			t1.start();
 			t2.start();
+			t3.start();
 		}
 	
 	private static Order CreateRandomOrder(User user)
