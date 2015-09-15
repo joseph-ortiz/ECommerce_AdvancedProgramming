@@ -12,7 +12,7 @@ public class BaseOrder
 	private List<Product> products;
 	private Address ShippingAddress;
 	private Boolean isComplete;
-	private UUID userid;
+	private String userid;
 	
 	/**Constructor: BaseOrder.java
 	 * Initializes object with following params.
@@ -22,13 +22,13 @@ public class BaseOrder
 		super();
 	}
 
-	public BaseOrder(UUID userId)
+	public BaseOrder(String string)
 	{
 		this.id = java.util.UUID.randomUUID();
 		this.total = 0.00;
-		this.payment = new Payment();
+		this.payment = new Payment(PaymentType.VISA);
 		this.products = new ArrayList<Product>();
-		this.userid = userId;
+		this.userid = string;
 		this.ShippingAddress = new Address();
 		this.isComplete = false;
 	}
@@ -73,12 +73,12 @@ public class BaseOrder
 		this.products = products;
 	}
 
-	public UUID getUserid()
+	public String getUserid()
 	{
 		return userid;
 	}
 
-	public void setUserid(UUID userid)
+	public void setUserid(String userid)
 	{
 		this.userid = userid;
 	}

@@ -150,6 +150,8 @@ public class Home extends Application
 					@Override
 					public void run(){
 						order.placeOrder();
+						//Home h = new Home();
+						//h.textField.setText("Order placed.  Your total is: " + this.getTotal());
 						textField.setText("Order placed.  Your total is: " + order.getTotal());
 					}
 				});

@@ -1,6 +1,12 @@
 package Models;
 
 public class Payment {
+	
+	public Payment(PaymentType paymentType)
+	{
+		this.type = paymentType;
+	}
+	
 	public PaymentType type;
 
 	public PaymentType getType() {

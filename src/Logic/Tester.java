@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import Models.Address;
 import Models.Order;
+import Models.Payment;
+import Models.PaymentType;
 import Models.Product;
 import Models.User;
 
@@ -18,27 +20,42 @@ public class Tester {
 
 	public static void main(String[] args) {
 			User user = new User("jortiz3");
-			user.orders.add(CreateRandomOrder(user));
-	
+			Order o1 = CreateRandomOrder(user);
+			o1.setPayment(new Payment(PaymentType.AMERICAN_EXPRESS));
+			user.orders.add(o1);
+			
 			
 			User user2 = new User("kwilson");
-			user2.orders.add(CreateRandomOrder(user));
+			Order o2 = CreateRandomOrder(user2);
+			o2.setPayment(new Payment(PaymentType.PAYPAL));
+			user2.orders.add(o2);
 			
 			
-			ExecutorService executor = Executors.newCachedThreadPool();
-			executor.execute(new Runnable(){
+			Thread t1 = new Thread(new Runnable(){
 				@Override
 				public void run(){
+					System.out.println("Started order for user: " + user.getId());
 					user.getOrders().get(0).placeOrder();
+					System.out.println("Order placed for user: " + user.getId());
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
-			executor.execute(new Runnable(){
+			Thread t2 = new Thread(new Runnable(){
 				@Override
 				public void run()
 				{
+					System.out.println("Started order for user: " + user2.getId());
 					user2.getOrders().get(0).placeOrder();
+					System.out.println("Order placed for user: " + user2.getId());
 				}
 			});
+			t1.start();
+			t2.start();
 		}
 	
 	private static Order CreateRandomOrder(User user)
@@ -46,7 +63,7 @@ public class Tester {
 
 		//Create an order
 		Order order = new Order(user.getId());
-		order.setShippingAddress(new Address()); //TODO: Create GUI for address field Then get address from user input.
+		order.setShippingAddress(new Address()); 
 		List<Product> products = GenerateListOfProducts();
 		Random rand = new Random();
 		int randomNum = rand.nextInt((10 - 1) + 1) + 1;

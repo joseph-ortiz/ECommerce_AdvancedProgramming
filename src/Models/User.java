@@ -7,21 +7,21 @@ import java.util.UUID;
 public class User {
 	
 	public User(String username){
-		this.Id = UUID.randomUUID();
+		this.Id = UUID.randomUUID().toString().substring(0, 4);
 		this.username = "username";
 		this.email = "jortiz3@ggc.edu";
 		this.orders = new ArrayList<Order>();
 	}
 	
-	public UUID Id;
+	public String Id;
 	public String username;
 	public String email;
 	public List<Order> orders;
 	
-	public UUID getId() {
+	public String getId() {
 		return Id;
 	}
-	public void setId(UUID id) {
+	public void setId(String id) {
 		Id = id;
 	}
 	public String getUsername() {
