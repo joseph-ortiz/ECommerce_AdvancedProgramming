@@ -4,10 +4,12 @@ package Logic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import Generics.GenericStack;
 import Models.Address;
 import Models.Order;
 import Models.Payment;
@@ -20,9 +22,76 @@ import Models.User;
 
 public class Tester {
 	public static void main(String[] args) {
+		 
+		//Homework#3
+		//Instructions	 
+		//#1.  Apply the GenericStack<E> as discussed in class, “add” 12 e-commerce customers and/or transactions, 
+		//“remove” the 5th customer. Make sure you keep the rest of the patients in the same stack.
 		
-		
+		//#1 Apply the GenericStack<E> as discussed in class, “add” 12 e-commerce customers and/or transactions
+		//GenericStackExample();
 	
+		
+		
+		
+		
+		
+
+		//#2.  Create a new LinkedList ( and an associated ListIterator), store “add” 12 customers. 
+		//“Remove” the customer(s) in the middle. 
+		// hint    listiterator<costomer> it = list.listiterator();
+		//TODO: create LInkedList
+		//TODO: get the middle nodes. i.e. 5 and 6
+		//TODO: pop the head off  push the head node to the queue but skip 5 and 6 by using a counter
+		//TODO: build a new LInked List with the new list.
+		//TODO: 
+		 
+
+		//#3.  Create a “queue”, “add” 12 customers, remove a couple customers in the middle. Maintain the same queueing order for the rest of customers.
+		//user piorityQueue
+	
+	}
+
+	/**
+	 * 
+	 */
+	private static void GenericStackExample() {
+		GenericStack<User> stack= new GenericStack<User>();
+		for(int i = 0; i < 12; i++)
+		{
+			User user = new User("jortiz");
+			Order o= CreateRandomOrder(user);
+			stack.push(user);
+		}
+		System.out.println("Building the stack");
+		System.out.println("stack size: " + stack.getSize());
+		
+		
+		//#2 Remove the fifth customer
+		int originalStackSize = stack.getSize();
+		GenericStack<User> tempStack = new GenericStack<User>();
+		for(int j = 0; j < originalStackSize; j++)
+		{
+			if(j != 4){
+				System.out.println("added element at index: " + j + " to the tempStack.");
+				tempStack.push(stack.pop());
+			}else{
+				System.out.println("skipped over the fifth element");
+			}
+		}
+		System.out.println("pushing to the  temp stack");
+		System.out.println("stack size: " + stack.getSize());
+		System.out.println("tempStack size: " + tempStack.getSize());
+		
+		
+		for(int k = 0; k < originalStackSize-1; k++)
+		{	
+			User user = tempStack.pop();
+			stack.push(user); 
+		}
+		System.out.println("Pushing to the original stack");
+		System.out.println("tempStack size: " + tempStack.getSize());
+		System.out.println("stack size: " + stack.getSize());
 	}
 
 	/**
