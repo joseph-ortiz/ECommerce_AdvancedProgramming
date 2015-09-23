@@ -1,5 +1,7 @@
 package Logic;
 
+import java.util.Iterator;
+
 import Generics.CustomLinkedList;
 import Generics.GenericStack;
 import Helper.Setup;
@@ -75,24 +77,66 @@ public class Homework3 {
 		CustomLinkedList<User> list = new CustomLinkedList<User>();
 		Setup.SetupLinkedListData(list);
 		
+		
 		//Step 2 - get the middle nodes
-		int middleNodeIndexOne = list.size() / 2;
-		int middleNodeIndexTwo = middleNodeIndexOne + 1;
-		System.out.println("Planning to remove node at index : " + middleNodeIndexOne);
+		int middleNodeIndex;
+		middleNodeIndex = GetMiddleNodeIndex(list);
+		
+		System.out.println("Planning to remove node at index : " + middleNodeIndex);
 		
 		//Step 3 iterate over linked List
 		int counter = 0;
 		CustomLinkedList<User> filteredList = new CustomLinkedList<User>();
 		if(!list.isEmpty()){
-			while(list.iterator().hasNext()){ 
-				User u = list.iterator().next();
-				if(counter != middleNodeIndexOne 
-						&& counter != middleNodeIndexTwo){
+			Iterator<User> it = list.iterator();
+			while(it.hasNext()){ 
+				User u = it.next();
+				System.out.println("retrieved User " + u.username.toString());
+				Boolean didRemoveNode = TryRemoveMiddleNode(middleNodeIndex, counter, list);
+				if(!didRemoveNode){
 					filteredList.addLast(u);	//put linked list to a new list.
+					System.out.println("Added element in index: " + counter);
+				}	
+					counter++;
 				}
-				counter++;
-			}	
 		}
 		filteredList.print();
+	}
+
+	/**
+	 * @param middleNodeIndex
+	 * @param counter
+	 * @param list
+	 */
+	private static Boolean TryRemoveMiddleNode(int middleNodeIndex, int counter, CustomLinkedList<User> list) {
+		
+		if(list.isEven()){
+			if(counter == middleNodeIndex - 1 || 
+					counter == (middleNodeIndex -2)){
+				System.out.println("Skipped over element in index: " + counter);
+				return true;
+			}
+		}	
+		else {
+			if(counter == middleNodeIndex) {
+				System.out.println("Skipped over element in index: " + counter);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	private static int GetMiddleNodeIndex(CustomLinkedList<User> list) {
+		int middleNodeIndex;
+		if(list.isEven()){
+			middleNodeIndex = (list.size() / 2) ;
+		}else{
+			middleNodeIndex = (int) Math.ceil(list.size()/2) ;
+		};
+		return middleNodeIndex;
 	}
 }
