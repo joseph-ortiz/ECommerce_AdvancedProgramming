@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-
 import Generics.CustomLinkedList;
+import Generics.GenericStack;
+import Logic.CustomPriorityQueue;
 import Models.Address;
 import Models.Order;
 import Models.Product;
@@ -24,23 +25,36 @@ public class Setup {
 	
 	/**
 	 * @param list
+	 * @param numberOfOrders 
 	 */
-	public static void SetupLinkedListData(CustomLinkedList<User> list) {
-		for(int i = 0; i < 12; i++)
+	public static void SetupListData(CustomLinkedList<User> list, int numberOfOrders) {		
+		for(int i = 0; i < numberOfOrders; i++)
 		{
 			User user = new User(GetRandomName() + "_" + GetRandomName());
 			Order o = CreateRandomOrder(user);
 			user.orders.add(o);
 			list.addLast(user);
 		}
-		System.out.println("Built Linked list.");
-		System.out.println("Linked List size of : " + list.size());
+		System.out.println("Built Linked list with a size of: " + list.size());
 		list.print();
+	}
+	
+	public static CustomPriorityQueue<User> SetupListData(CustomPriorityQueue<User> list, int numberOfUsers) {
+		for(int i = 0; i < numberOfUsers; i++)
+		{
+			String username = GetRandomName() + "_" + GetRandomName();
+			User user = new User(username, i+1);
+			Order o = CreateRandomOrder(user);
+			user.orders.add(o);
+			list.offer(user);
+		}
+		System.out.println("Built Queue.");
+		System.out.println("Queue size of : " + list.size());	
+		return list;
 	}
 	
 	public static Order CreateRandomOrder(User user)
 	{
-
 		//Create an order
 		Order order = new Order(user.getId());
 		order.setShippingAddress(new Address()); 
@@ -53,35 +67,48 @@ public class Setup {
 	}
 
 	public static List<Product> GenerateListOfProducts() {
-				//Create Category
-				Models.ProductCategory bookCategory = new Models.ProductCategory("Books");
-				List<Product> products = new ArrayList<Product>();  	
-				
-				//Create Products
-				Product p1 = new Product("Financial Management",  60.00, bookCategory);
-				Product p2 = new Product("Advanced Programming",  80.00, bookCategory);
-				Product p3 = new Product( "Intro to Marketing",  89.50, bookCategory);
-				Product p4 = new Product( "American History 1",  99.99, bookCategory);
-				Product p5 = new Product( "American History 2",  69.00, bookCategory);
-				Product p6 = new Product( "Principles of Biology",  75.00, bookCategory);
-				Product p7 = new Product( "Molecular Biology",  30.00, bookCategory);
-				Product p8 = new Product( "Advanced Physics",  125.99, bookCategory);
-				Product p9 = new Product( "Operating System",  80.00, bookCategory);
-				Product p10 = new Product( "Discrete Mathematics",  123.00, bookCategory);
-			
-				//add products to the list
-				products.add(p1);
-				products.add(p2);
-				products.add(p3);
-				products.add(p4);
-				products.add(p5);
-				products.add(p6);
-				products.add(p7);
-				products.add(p8);
-				products.add(p9);
-				products.add(p10);
-				return products;
-	}
+		//Create Category
+		Models.ProductCategory bookCategory = new Models.ProductCategory("Books");
+		List<Product> products = new ArrayList<Product>();  	
+		
+		//Create Products
+		Product p1 = new Product("Financial Management",  60.00, bookCategory);
+		Product p2 = new Product("Advanced Programming",  80.00, bookCategory);
+		Product p3 = new Product( "Intro to Marketing",  89.50, bookCategory);
+		Product p4 = new Product( "American History 1",  99.99, bookCategory);
+		Product p5 = new Product( "American History 2",  69.00, bookCategory);
+		Product p6 = new Product( "Principles of Biology",  75.00, bookCategory);
+		Product p7 = new Product( "Molecular Biology",  30.00, bookCategory);
+		Product p8 = new Product( "Advanced Physics",  125.99, bookCategory);
+		Product p9 = new Product( "Operating System",  80.00, bookCategory);
+		Product p10 = new Product( "Discrete Mathematics",  123.00, bookCategory);
 	
+		//add products to the list
+		products.add(p1);
+		products.add(p2);
+		products.add(p3);
+		products.add(p4);
+		products.add(p5);
+		products.add(p6);
+		products.add(p7);
+		products.add(p8);
+		products.add(p9);
+		products.add(p10);
+		return products;
+	}
 
+	public static void SetupListData(GenericStack<User> stack, int numberOfOrders) {
+		System.out.println("Building the stack...");
+		System.out.println("Stack size: " + stack.getSize());
+		System.out.println("________________User List________________");
+		for(int i = 0; i < numberOfOrders; i++)
+		{
+			User user = new User(GetRandomName() + "_" + GetRandomName());
+			Order o = CreateRandomOrder(user);
+			user.orders.add(o);
+			stack.push(user);
+			System.out.println( user.toString());
+		}
+		System.out.println("Stack size: " + stack.getSize() + "\n");
+	}
 }

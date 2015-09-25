@@ -1,8 +1,12 @@
 package Logic;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.PriorityQueue;
 
 import Generics.CustomLinkedList;
+import Generics.GenericQueue;
 import Generics.GenericStack;
 import Helper.Setup;
 import Models.User;
@@ -10,133 +14,109 @@ import Models.User;
 public class Homework3 {
 	
 	public static void main(String[] args){
-		//Homework#3 Problem 1
-		////#1 Apply the GenericStack<E> as discussed in class, “add” 12 e-commerce customers and/or transactions
-		//RunGenericStackExample();
 		
-		//HomeWork #2 Problem 2 : 
-		//#2.  Create a new LinkedList ( and an associated ListIterator), store “add” 12 customers. 
-		//“Remove” the customer(s) in the middle. 
+		/**
+		 * Problem #1
+		 * Apply the GenericStack<E> as discussed in class, 
+		 * “add” 12 e-commerce customers and/or transactions
+		 **/
+		RunGenericStackExample();
+		
+		
+		
+		/**
+		 * Problem #2
+		 * Create a new LinkedList ( and an associated ListIterator), 
+		 * store “add” 12 customers. 
+		 * “Remove” the customer(s) in the middle. 
+		 **/
 		RunLinkedListExample();
 		
-		//#3.  Create a “queue”, “add” 12 customers, remove a couple customers in the middle. Maintain the same queueing order for the rest of customers.
-		//user piorityQueue
-		//RunQueueExample();
+
+		/**
+		 * Problem #3.  
+		 * Create a “queue”, “add” 12 customers, 
+		 * remove a couple customers in the middle. 
+		 * Maintain the same queueing order for the rest of customers.
+		 */
+		RunQueueExample();
 	}
 	
-	private static void RunQueueExample() {
-		// TODO Auto-generated method stub
-		
-	}
+	
+
+	
 
 	/**
 	 * HW#3 Problem 1
 	 */
 	private static void RunGenericStackExample() {
+		
+		//Step 1 - build the stack
 		GenericStack<User> stack= new GenericStack<User>();
-		for(int i = 0; i < 12; i++)
-		{
-			User user = new User("jortiz");
-			Setup.CreateRandomOrder(user);
-			stack.push(user);
-		}
-		System.out.println("Building the stack");
-		System.out.println("stack size: " + stack.getSize());
+		Setup.SetupListData(stack, 12);
 		
-		
-		//#2 Remove the fifth customer
-		int originalStackSize = stack.getSize();
+		//Step 2 - Remove the fifth customer
+		int counter = 0;
+		int fifthElement = 4;
 		GenericStack<User> tempStack = new GenericStack<User>();
-		for(int j = 0; j < originalStackSize; j++)
-		{
-			if(j != 4){
-				System.out.println("added element at index: " + j + " to the tempStack.");
-				tempStack.push(stack.pop());
-			}else{
-				System.out.println("skipped over the fifth element");
+		System.out.println("\nRemoving the fifth element");
+		while(!stack.isEmpty()){
+			if(counter == fifthElement){
+				//stack.pop();
+				System.out.println(stack.pop().toString() + " Skipped");
 			}
+			else{
+				User u = stack.pop();
+				tempStack.push(u);
+				//System.out.println(u.toString() + " pushed to the temp stack.");
+			}	
+			counter++;
 		}
-		System.out.println("pushing to the  temp stack");
-		System.out.println("stack size: " + stack.getSize());
-		System.out.println("tempStack size: " + tempStack.getSize());
+
 		
-		
-		for(int k = 0; k < originalStackSize-1; k++)
-		{	
+		//Step -3 push the filtered stack to the new stack to maintain order.
+		System.out.println("\n\nPushing to the original stack");
+		System.out.println("Final Stack");
+		while(!tempStack.isEmpty()){
 			User user = tempStack.pop();
 			stack.push(user); 
+			System.out.println(user.toString());
 		}
-		System.out.println("Pushing to the original stack");
-		System.out.println("tempStack size: " + tempStack.getSize());
-		System.out.println("stack size: " + stack.getSize());
 	}
 	
-
+	/**
+	 * HW#3 Problem 2
+	 */
 	private static void RunLinkedListExample() {
 		//Step 1 - Build the linked list with users and random orders
 		CustomLinkedList<User> list = new CustomLinkedList<User>();
-		Setup.SetupLinkedListData(list);
-		
-		
-		//Step 2 - get the middle nodes
-		int middleNodeIndex;
-		middleNodeIndex = GetMiddleNodeIndex(list);
-		
-		System.out.println("Planning to remove node at index : " + middleNodeIndex);
+		Setup.SetupListData(list, 12);
+
+		//Step 2 - remove the middle node.
+		CustomLinkedList<User>filteredList = list.removeMiddleNode();
 		
 		//Step 3 iterate over linked List
-		int counter = 0;
-		CustomLinkedList<User> filteredList = new CustomLinkedList<User>();
-		if(!list.isEmpty()){
-			Iterator<User> it = list.iterator();
-			while(it.hasNext()){ 
-				User u = it.next();
-				System.out.println("retrieved User " + u.username.toString());
-				Boolean didRemoveNode = TryRemoveMiddleNode(middleNodeIndex, counter, list);
-				if(!didRemoveNode){
-					filteredList.addLast(u);	//put linked list to a new list.
-					System.out.println("Added element in index: " + counter);
-				}	
-					counter++;
-				}
-		}
 		filteredList.print();
-	}
-
+	}	
+	
 	/**
-	 * @param middleNodeIndex
-	 * @param counter
-	 * @param list
+	 * HW#3 Problem 3
+	 * //Create a “queue”, “add” 12 customers, remove a couple customers in the middle. 
+	 * Maintain the same queueing order for the rest of customers.
 	 */
-	private static Boolean TryRemoveMiddleNode(int middleNodeIndex, int counter, CustomLinkedList<User> list) {
+	
+	private static void RunQueueExample() {		CustomPriorityQueue<User> queue = new CustomPriorityQueue<User>();
+		queue = Setup.SetupListData(queue, 12);
+		System.out.println("\n Built Queue");
+		queue.forEach(x -> System.out.println("User: " + x.username + "with priority of " + x.getPriority()));
 		
-		if(list.isEven()){
-			if(counter == middleNodeIndex - 1 || 
-					counter == (middleNodeIndex -2)){
-				System.out.println("Skipped over element in index: " + counter);
-				return true;
-			}
-		}	
-		else {
-			if(counter == middleNodeIndex) {
-				System.out.println("Skipped over element in index: " + counter);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @param list
-	 * @return
-	 */
-	private static int GetMiddleNodeIndex(CustomLinkedList<User> list) {
-		int middleNodeIndex;
-		if(list.isEven()){
-			middleNodeIndex = (list.size() / 2) ;
-		}else{
-			middleNodeIndex = (int) Math.ceil(list.size()/2) ;
-		};
-		return middleNodeIndex;
+		CustomPriorityQueue<User> filteredQueue = queue.removeElementAtCenter();
+		filteredQueue = filteredQueue.removeElementAtCenter();
+		System.out.println("\n removed middle element");
+		filteredQueue.forEach(x -> System.out.println("User: " + x.username + "with priority of " + x.getPriority()));
+		
+		
+		System.out.println("\n removed another middle element");
+		filteredQueue.forEach(x -> System.out.println("User: " + x.username + "with priority of " + x.getPriority()));
 	}
 }
